@@ -1,4 +1,5 @@
 package com.pluralsight;
+import java.time.LocalDateTime;
 
 public class Employee {
     private int employeeId;
@@ -49,13 +50,28 @@ public class Employee {
     public void punchIn(double time) {
         punchIn = time;
     }
+    public void punchIn() {
+        LocalDateTime now = LocalDateTime.now();
+        punchIn = now.getHour() + now.getMinute() / 60.0;
+    }
     public void punchOut(double time) {
         if (punchIn > 0) {
             double workedHours = time - punchIn;
             hoursWorked += workedHours;
             punchIn = 0.0;
         } else {
-            System.out.println("Cannot punch out without punching in first.");
+            System.out.println("You cannot punch out without punching in first.");
+        }
+    }
+    public void punchOut() {
+        if (punchIn > 0) {
+            LocalDateTime now = LocalDateTime.now();
+            double currentTime = now.getHour() + now.getMinute() / 60.0;
+            double workedHours = currentTime - punchIn;
+            hoursWorked += workedHours;
+            punchIn = 0.0;
+        } else {
+            System.out.println("You cannot punch out without punching in first.");
         }
     }
     public double getTotalPay() {
